@@ -20,31 +20,29 @@ const itemsSchema = mongoose.Schema ({
 
 const Item = mongoose.model("Item", itemsSchema);
 
+const td1 = new Item ({
+  name: "Buy food"
+});
+
+const td2 = new Item ({
+  name: "Cook food"
+});
+
+const td3 = new Item ({
+  name: "Eat food"
+});
+
+const defaultItems = [td1,td2,td3];
+
+Item.insertMany(defaultItems, (err) => {
+  if (err) {
+    console.log(err)
+  } else {
+    console.log("The items have been added to the DB")
+  }
+});
 app.get("/", function(req, res) {
-
-  const td1 = new Item ({
-    name: "Buy food"
-  });
-
-  const td1 = new Item ({
-    name: "Buy food"
-  });
-
-  const td1 = new Item ({
-    name: "Buy food"
-  });
-
-  const defaultItems = [td1,td2,td3];
-
-  Item.insertMany(defaultItems, (err) => {
-    if (err) {
-      console.log(err)
-    } else {
-      console.log("The items have been added to the DB")
-    }
-  });
   
-
   res.render("list", {listTitle: "Today", newListItems: items});
 
 });
@@ -70,6 +68,6 @@ app.get("/about", function(req, res){
   res.render("about");
 });
 
-app.listen(3000, function() {
-  console.log("Server started on port 3000");
+app.listen(3100, function() {
+  console.log("Server started on port 3100");
 });
