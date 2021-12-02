@@ -32,19 +32,25 @@ const td3 = new Item ({
   name: "Eat food"
 });
 
-const defaultItems = [td1,td2,td3];
+const defaultItems = [td1,td2,td3]; 
 
-Item.insertMany(defaultItems, (err) => {
-  if (err) {
-    console.log(err)
-  } else {
-    console.log("The items have been added to the DB")
-  }
-});
-app.get("/", function(req, res) {
+app.get("/", (req, res) => {
   
-  res.render("list", {listTitle: "Today", newListItems: items});
+  Item.find({}, (err, dbItems) => {
 
+    if (dbItems.length === 0){
+      Item.insertMany(defaultItems, (err) => {
+        if (err) {
+          console.log(err)
+        } else {
+          console.log("The items have been added to the DB")
+        }
+      });
+      res.redirect("/");
+    } else {
+       res.render("list", {listTitle: "Today", newListItems: dbItems});
+    }  
+  });
 });
 
 app.post("/", function(req, res){
