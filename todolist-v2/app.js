@@ -14,17 +14,38 @@ app.use(express.static("public"));
 
 mongoose.connect("mongodb://localhost:27017/todolistDB", {useNewUrlParser: true});
 
-const itemsSchema = {
-  name: String,
-};
+const itemsSchema = mongoose.Schema ({
+  name: String
+});
 
 const Item = mongoose.model("Item", itemsSchema);
 
 app.get("/", function(req, res) {
 
-const day = date.getDate();
+  const td1 = new Item ({
+    name: "Buy food"
+  });
 
-  res.render("list", {listTitle: day, newListItems: items});
+  const td1 = new Item ({
+    name: "Buy food"
+  });
+
+  const td1 = new Item ({
+    name: "Buy food"
+  });
+
+  const defaultItems = [td1,td2,td3];
+
+  Item.insertMany(defaultItems, (err) => {
+    if (err) {
+      console.log(err)
+    } else {
+      console.log("The items have been added to the DB")
+    }
+  });
+  
+
+  res.render("list", {listTitle: "Today", newListItems: items});
 
 });
 
