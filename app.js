@@ -76,7 +76,6 @@ app.get("/:customListName", (req, res) => {
         res.redirect("/" + customListName);
       } else {
         // Show an existing list
-        console.log(foundList);
         res.render("list", {listTitle: foundList.name, newListItems: foundList.items})
       }
     }
@@ -87,13 +86,26 @@ app.get("/:customListName", (req, res) => {
 app.post("/", function(req, res){
 
   const itemName = req.body.newItem;
+  const listName = req.body.list;
 
   const item = new Item ({
     name: itemName
   });
 
-  item.save();
-  res.redirect("/");
+  if (listName === "Today"){
+    item.save();
+    res.redirect("/");
+  } else {
+    List.findOne({name: listName}, (err, foundList) => {
+      if (!err){
+      foundList.items.push(item);
+      foundList.save();
+      res.redirect("/" + listName);
+      }
+    });
+  }
+
+  
 
 });
 
