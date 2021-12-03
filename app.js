@@ -21,15 +21,15 @@ const itemsSchema = mongoose.Schema ({
 const Item = mongoose.model("Item", itemsSchema);
 
 const td1 = new Item ({
-  name: "Buy food"
+  name: "Welcome to your todolist"
 });
 
 const td2 = new Item ({
-  name: "Cook food"
+  name: "Hit the + button to add a new item."
 });
 
 const td3 = new Item ({
-  name: "Eat food"
+  name: "<-- Hit this to delete an item"
 });
 
 const defaultItems = [td1,td2,td3]; 
@@ -55,15 +55,15 @@ app.get("/", (req, res) => {
 
 app.post("/", function(req, res){
 
-  const item = req.body.newItem;
+  const itemName = req.body.newItem;
 
-  if (req.body.list === "Work") {
-    workItems.push(item);
-    res.redirect("/work");
-  } else {
-    items.push(item);
-    res.redirect("/");
-  }
+  const item = new Item ({
+    name: itemName
+  });
+
+  item.save();
+  res.redirect("/");
+
 });
 
 app.get("/work", function(req,res){
